@@ -1,0 +1,94 @@
+<!-- Créer l'en tête -->
+<div id="entete">
+  <div>
+    <!-- Créer un bouton pour acceder à AddUtilisateur -->
+    <a routerLink= "/pages/parameters/ajouterutilisateur/" >
+      <button type="button" class="btn btn-outline-primary" rippleEffect>
+        <span [data-feather]="'user-plus'" [class]="'mr-25'"></span>Add a new user
+      </button>
+    </a>
+  </div>
+ </div>
+ 
+ <div id="footer">
+
+<!-- Créer une datatable -->
+<!-- Récupérer la classe de bootstrap -->
+<!-- Définir la largeur du header -->
+<!-- Définir la largeur de la colonne -->
+<!-- Définir la limite -->
+<!-- Définir le mode pour la colonne -->
+<!-- Définir la largeur du bas de page -->
+<!-- Définir la colonne -->
+<!-- Définir le scrollbarH -->
+  <div>
+  <ngx-datatable
+    class="bootstrap core-bootstrap"
+    [headerHeight]="40"
+    [rowHeight]="58"
+    [limit]="10"
+    [columnMode]="ColumnMode.force"
+    [footerHeight]="50"
+    [rows]="utilisateurs"
+    [scrollbarH]="true"
+  > 
+    <!-- Créer la colonne userName dans la datatable -->
+    <ngx-datatable-column [width]="200" name="username" prop="username">
+      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <!-- Créer la colonne name dans la datatable -->
+    <!--<ngx-datatable-column [width]="200" name="name" prop="name">
+      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column> -->
+    
+    <!-- Créer la colonne surname dans la datatable -->
+    <!--<ngx-datatable-column [width]="200" name="surname" prop="surname">
+      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column> -->
+
+    <!-- Créer la colonne email dans la datatable -->
+    <ngx-datatable-column [width]="300" name="email" prop="email">
+      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <!-- Créer la colonne action pour modifier ou supprimer un utilisateur -->
+    <ngx-datatable-column name="Actions" [width]="120" [sortable]="false">
+      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row">
+        <div class="d-flex align-items-center">
+          <div ngbDropdown container="body">
+            <a
+              ngbDropdownToggle
+              href="javascript:void(0);"
+              class="hide-arrow"
+              id="dropdownBrowserState"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i data-feather="more-vertical" class="text-primary cursor-pointer mr-50"></i>
+            </a>
+            <div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownBrowserState">
+              <a (click)="DeleteUser(row.id)" href="javascript:void(0)" ngbDropdownItem class="d-flex align-items-center"
+                ><i data-feather="trash-2" class="mr-50"></i> Delete</a
+              >
+              <a [routerLink]= "['/pages/parameters/modifierutilisateur', row.id]" href="javascript:void(0)" ngbDropdownItem class="d-flex align-items-center"
+              ><i data-feather="file-text" class="mr-50"></i> Modify</a
+            >
+            </div>
+          </div>
+          <i data-feather="edit" class="text-primary cursor-pointer"></i>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+  </div>
+</div>

@@ -1,0 +1,349 @@
+<div class="content-wrapper">
+  <div class="content-body">
+    <!-- Afficher le composant editer un élément -->
+    <section class="app-editer">
+      <!-- Afficher le formulaire -->
+      <form (ngSubmit)="Valider(TDValidationForm.form.valid)" #TDValidationForm="ngForm">
+      <!-- <form (ngSubmit)="onSubmit()" class="form-validate" #EditerForm="ngForm"> -->
+
+        <!-- Afficher la carte des boutons de navigation -->
+        <div class="card">
+          <div class="card-body">
+            <!-- Afficher le bandeau d'en-tête -->
+            <div class="row">
+              <!-- Afficher la partie gauche du bandeau -->
+              <div class="col-md-6 col-12 d-flex">
+                <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                  <!-- Afficher le bouton Retour -->
+                  <a (click)="Retourner()" href="javascript:void(0)">
+                  <!-- <a [routerLink]="['/pages', controllerNom.toLowerCase(), 'lister']"> -->
+                    <button type="button" class="btn btn-outline-secondary ml-1" rippleEffect>
+                      <span data-feather="corner-down-left" class="d-none d-sm-inline-block"></span> Retour
+                    </button>
+                  </a>
+
+                  <!-- Afficher le bouton Valider que si les champs obligatoires sont renseignés -->
+                  <ng-container *ngIf="editerMode=='Modifier' || editerMode=='Ajouter'">
+                    <button type="submit" class="btn btn-success ml-1" rippleEffect>
+                      <span data-feather="check-circle" class="d-none d-sm-inline-block"></span> Valider
+                    </button>
+                  </ng-container>
+                </div>
+              </div>
+              <!-- <app-breadcrumb [breadcrumb]="breadcrumbDefault"></app-breadcrumb> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <!-- Afficher le corps de la carte -->
+          <div class="card-body">
+
+            <!-- Afficher les onglets -->
+            <ul ngbNav #nav="ngbNav" class="nav nav-pills" keyboard="changeWithArrows">
+              <!-- Boucler sur tous les labels : onglets et champs triés par onglet puis position -->
+              <ng-container *ngFor="let o of ielement.onglets">
+                <!-- Traiter le cas des onglets -->
+                <li ngbNavItem id="{{o.id}}">
+                  <a ngbNavLink class="d-flex align-items-center">
+                    <!-- Afficher l'icone de l'onglet -->
+                    <fa-icon [icon]="FontawesomeSolid[o.icone]"></fa-icon>
+                    <!-- Afficher le nom de l'onglet -->
+                    <span class="d-none d-sm-block">{{o.nom}}</span>
+                  </a>
+
+                  <!-- Afficher le contenu des onglets -->
+                  <ng-template ngbNavContent>
+                    <div class="tab-pane active" id="{{o.id}}" aria-labelledby="{{o.id}}" role="tabpanel">
+                      <div class="row">
+
+                        <!-- Parcourir les champs -->
+                        <ng-container *ngFor="let l of ielement.labels">
+                          <!-- Tester la visibilité de l'élément -->
+                          <ng-container *ngIf="l.visible">
+                            <!-- Créer l'élément dont l'id correspond à l'onglet -->
+                            <div *ngIf="o.id==l.onglet" class="col-md-6 col-12">
+                              
+                              <!-- Afficher le formulaire -->
+                              <div class="form-group">
+                                 <!-- Afficher le label du champ -->
+                                <a class="d-flex align-items-center">
+                                  <!-- Afficher l'icone -->
+                                  <ng-container *ngIf="l.iconeSource=='Solid'; else elseBlock">
+                                    <fa-icon [icon]="FontawesomeSolid[l.icone]"></fa-icon>
+                                  </ng-container>
+                                  <ng-template #elseBlock>
+                                    <fa-icon [icon]="FontawesomeBrand[l.icone]"></fa-icon>
+                                  </ng-template>
+
+                                  <!-- Afficher le nom -->
+                                  <ng-container *ngIf="l.requis">
+                                    <span class="d-none d-sm-block pl-1">{{l.nom}} *</span>
+                                  </ng-container>
+                                  <ng-container *ngIf="!l.requis">
+                                    <span class="d-none d-sm-block pl-1">{{l.nom}}</span>
+                                  </ng-container>
+                                </a>
+
+                                <!-- Afficher le champ en foction du format d'affichage -->
+                                <ng-container [ngSwitch]="l.format">
+                                  
+                                  <!-- Gérer le format monnaie -->
+                                  <div *ngSwitchCase="'monnaie'">
+                                    <input
+                                      class="form-control" 
+                                      type="text"
+                                      id="{{l.propriete}}" 
+                                      name="{{l.propriete}}" 
+                                      placeholder="{{l.placeholder}}"
+                                      [(ngModel)]="ielement.donnees[l.propriete]"
+                                      [class.error]="TDValidMonnaieRef.invalid && TDValidationForm.submitted"
+                                      #TDValidMonnaieRef="ngModel"
+                                      pattern="[0-9]+[0-9]+[0-9]+[0-9]+[0-9]$"
+                                      [required]="l.requis"
+                                      [disabled]="disabled"
+                                    />
+                                    <!-- Afficher l'érreur de saisie -->
+                                    <small class="form-text text-danger" *ngIf="TDValidMonnaieRef.invalid && TDValidationForm.submitted"
+                                      >Ce champ n'est pas une monnaie valide !
+                                    </small>        
+                                 </div>
+
+                                  <!-- Gérer le format date -->
+                                  <div *ngSwitchCase="'date'">
+                                    <ng-container *ngIf="editerMode=='Afficher'; else elseBlock">
+                                      <input 
+                                        [disabled]="disabled"
+                                        class="form-control"
+                                        id="{{l.propriete}}" 
+                                        name="{{l.propriete}}"
+                                        placeholder="{{l.placeholder}}"
+                                        [ngModel]="ielement.donnees[l.propriete] | date: 'dd/MM/yyyy'"
+                                        (ngModelChange)="ielement.donnees[l.propriete]=$event" 
+                                      />
+                                    </ng-container>
+                                    <ng-template #elseBlock>
+                                      <input 
+                                        [disabled]="disabled"
+                                        class="form-control"
+                                        type="date" 
+                                        id="{{l.propriete}}" 
+                                        name="{{l.propriete}}" 
+                                        placeholder="{{l.placeholder}}"
+                                        [ngModel]="ielement.donnees[l.propriete] | date: 'yyyy-MM-dd'"
+                                        (ngModelChange)="ielement.donnees[l.propriete]=$event" 
+                                      />
+                                    </ng-template>
+                                  </div>
+   
+                                  <!-- Gérer les boolean -->
+                                  <div *ngSwitchCase="'boolean'">
+                                    <div class="custom-control custom-control-success custom-switch">
+                                      <ng-container *ngIf="editerMode=='Afficher'; else elseBlock">
+                                        <input 
+                                          class="custom-control-input"
+                                          type="checkbox"
+                                          id="{{l.propriete}}"
+                                          [name]="l.propriete"
+                                          [checked]="ielement.donnees[l.propriete]" 
+                                          [value]="ielement.donnees[l.propriete]" 
+                                          [disabled]="disabled"
+                                        />
+                                      </ng-container>
+                                      <ng-template #elseBlock>
+                                        <input 
+                                          class="custom-control-input"
+                                          type="checkbox"
+                                          id="{{l.propriete}}"
+                                          [name]="l.propriete"
+                                          [checked]="ielement.donnees[l.propriete]" 
+                                          [(ngModel)]="ielement.donnees[l.propriete]" 
+                                        />
+                                      </ng-template>
+                                      <label class="custom-control-label" for="{{l.propriete}}"></label>
+                                    </div>
+                                  </div>
+
+                                  <!-- Gérer les email -->
+                                  <div *ngSwitchCase="'email'">
+                                    <input
+                                      class="form-control"
+                                      type="email"
+                                      id="{{l.propriete}}"
+                                      name="{{l.propriete}}"
+                                      placeholder="{{l.placeholder}}"
+                                      [(ngModel)]="ielement.donnees[l.propriete]"
+                                      [class.error]="TDValidEmailRef.invalid && TDValidationForm.submitted"
+                                      #TDValidEmailRef="ngModel"
+                                      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$"
+                                      required
+                                      [disabled]="disabled"
+                                    />
+
+                                    <small class="form-text text-danger" *ngIf="TDValidEmailRef.invalid && TDValidationForm.submitted"
+                                      >Ce champ n'est pas un email valide !
+                                    </small>
+                                  </div>
+                                  
+                                  <!-- Gérer les téléphone -->
+                                  <div *ngSwitchCase="'telephone'">
+                                    <input 
+                                      class="form-control"
+                                      type="text"
+                                      id="{{l.propriete}}"                                    
+                                      name="{{l.propriete}}" 
+                                      placeholder="{{l.placeholder}}"
+                                      [(ngModel)]="ielement.donnees[l.propriete]"
+                                      [class.error]="TDValidPhoneRef.invalid && TDValidationForm.submitted"
+                                      #TDValidPhoneRef="ngModel"
+                                      pattern="[0-9]+[0-9]+[0-9]+[0-9]+[0-9]+[0-9]+[0-9]+[0-9]+[0-9]+[0-9]$"
+                                      [required]="l.requis"
+                                      [disabled]="disabled"
+                                    />
+                                    <!-- Afficher l'érreur de saisie -->
+                                    <small class="form-text text-danger" *ngIf="TDValidPhoneRef.invalid && TDValidationForm.submitted"
+                                      >Ce champ n'est pas un téléphone valide !
+                                    </small>        
+                                  </div>
+    
+                                  <!-- Gérer les listes déroulantes-->
+                                  <div *ngSwitchCase="'liste'">
+                                    <select 
+                                      class="form-control"
+                                      id="{{l.propriete}}" 
+                                      name="{{l.propriete}}"
+                                      [(ngModel)]="ielement.donnees[l.propriete]" 
+                                      [class.error]="TDRequiredFieldRef.invalid && TDValidationForm.submitted"
+                                      #TDRequiredFieldRef="ngModel"
+                                      [required]="l.requis"
+                                    >                                     
+                                      <option 
+                                        [disabled]="disabled" 
+                                        *ngFor="let element of References[l.propriete]" 
+                                        [value]="element.id"
+                                      >
+                                        {{element.nom}}
+                                      </option>                             
+                                    </select>
+                                    <small class="form-text text-danger" *ngIf="TDRequiredFieldRef.invalid && TDValidationForm.submitted"
+                                      >Ce champ est obligatoire !
+                                    </small>
+                                  </div>
+                                  
+                                  <!-- Gérer les étoiles -->
+                                  <div *ngSwitchCase="'etoile'">
+                                    <div class="rating rating-lg">
+                                        <ngb-rating 
+                                          class="outline-none"
+                                          [(rate)]="ielement.donnees[l.propriete]" 
+                                          [readonly]="disabled"
+                                        >
+                                        </ngb-rating>
+                                    </div>
+                                  </div>
+
+                                  <!-- Gérer les LAMS -->
+                                  <div *ngSwitchCase="'LAMS'">
+                                    <div id="footer">
+                                      <!-- Créer un datatable -->
+                                      <ngx-datatable #tableRowDetails class="bootstrap core-bootstrap" [headerHeight]="40" [rowHeight]="30" [columnMode]="ColumnMode.force" [footerHeight]="50" [rows]="liste" [scrollbarH]="true">                            
+                                      
+                                        <!-- Créer la colonne des actions -->
+                                        <ngx-datatable-column name="Actions" [width]="65" [sortable]="false">
+                                          <ng-template ngx-datatable-cell-template let-row="row">
+                                            <div ngbDropdown container="body">
+
+                                              <!-- Définir le bouton Action -->
+                                              <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow" rippleEffect>
+                                                <span [data-feather]="'more-vertical'" [class]="'cursor-pointer'"></span>
+                                              </button>
+
+                                              <!-- Définir les 2 actions -->
+                                              <div ngbDropdownMenu>
+                                                <!-- Définir le bouton modifier -->
+                                                <a [routerLink]="['/pages/', controllerNom.toLowerCase() ,'editer', row.id, {editerMode: 'Modifier'}]" href="javascript:void(0)"
+                                                  ngbDropdownItem class="d-flex align-items-center">
+                                                  <!-- Définir l'icone et la taille -->
+                                                  <i data-feather="edit" [size]="16" class="mr-50 text-primary"></i> Modifier
+                                                </a>
+
+                                                <!-- Définir la modale de suppression -->
+                                                <div class="modal-danger d-inline-block">
+                                                  <!-- Définir le bouton supprimer -->
+                                                  <a (click)="AfficherModal(modalDanger)" href="javascript:void(0)" ngbDropdownItem
+                                                    class="d-flex align-items-center">
+                                                    <!-- Définir l'icône et la taille -->
+                                                    <i data-feather="trash" [size]="16" class="mr-50 text-danger"></i> Supprimer
+                                                  </a>
+
+                                                  <!-- Définir la modale -->
+                                                  <ng-template #modalDanger let-modal>
+                                                    <div class="modal-header">
+                                                      <h5 class="modal-title" id="myModalLabel160">Supprimer un élément</h5>
+                                                      <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                      </button>
+                                                    </div>
+                                                    <div class="modal-body" tabindex="0" ngbAutofocus>
+                                                      Etes-vous sûr de vouloir supprimer {{row.nom}} ?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <button type="button" class="btn btn-danger" (click)="Supprimer(row.id)" rippleEffect>
+                                                        Supprimer
+                                                      </button>
+                                                    </div>
+                                                  </ng-template>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <!-- Créer les colonnes dynamiquement dans la datatable-->
+                                        <!-- Boucler sur les colonnes-->
+                                        <ng-container *ngFor="let i of iliste.colonnes">
+                                          <ngx-datatable-column *ngIf="i.visible" 
+                                            name="{{i.nom}}" 
+                                            prop="{{i.propriete}}" 
+                                            value="{{i.image}}"
+                                            [width]="i.largeur" 
+                                            [text-align]="i.alignement">
+                                          </ngx-datatable-column>
+                                        </ng-container>
+                                      </ngx-datatable>
+                                  </div>
+                                  </div>
+                                  
+                                  <!--Gérer les valeurs par défaut (text,number) -->
+                                  <div *ngSwitchDefault>
+                                    <input 
+                                      class="form-control"
+                                      type="{{l.format}}"
+                                      id="{{l.propriete}}"                                    
+                                      name="{{l.propriete}}" 
+                                      placeholder="{{l.placeholder}}"
+                                      [(ngModel)]="ielement.donnees[l.propriete]"
+                                      [class.error]="TDValidEmailRef.invalid && TDValidationForm.submitted"
+                                      #TDValidEmailRef="ngModel"
+                                      [required]="l.requis"
+                                      [disabled]="disabled"
+                                    />
+                                  </div>
+                                </ng-container>
+                              </div>
+                            </div>
+                          </ng-container>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </ng-template>
+                </li>
+              </ng-container>
+            </ul>
+            <div [ngbNavOutlet]="nav" class="mt-2"></div>
+          </div>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>

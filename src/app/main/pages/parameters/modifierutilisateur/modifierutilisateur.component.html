@@ -1,0 +1,114 @@
+<!-- Définir le formulaire-->
+<div class="content-wrapper">
+  <div class="content-body">
+
+    <!-- Définir l'en-tête -->
+    <section class="app-user-edit">
+        <div class="card">
+          <div class="card-body">
+            <ul ngbNav #nav="ngbNav" class="nav nav-pills">
+              <li ngbNavItem>
+                <a ngbNavLink class="d-flex align-items-center">
+                  <i data-feather="info" class="mr-sm-50"></i><span class="d-none d-sm-block">Information</span></a
+                >
+                <ng-template ngbNavContent>
+
+                  <!-- Définir le bouton information -->
+                  <div class="tab-pane" id="information" aria-labelledby="information-tab" role="tabpanel">
+                    
+                    <!-- Définir le formulaire et la méthode ngsubmit  -->
+                    <form (ngSubmit)="onSubmit()" #UtilisateurForm="ngForm" class="form-validate">
+                      
+                      <!-- Parcourir tous les éléments -->
+                      <option *ngFor="let element of utilisateur" [value]="element">{{element}}</option>
+                      <div class="row mt-1">
+                        <div class="col-12">
+                          <h4 class="mb-1">
+                            <i [size]="16" class="mr-75 font-medium-4"></i>
+                            <span class="align-middle">Modify a user</span>
+                          </h4>
+                        </div>
+
+                        <!-- Définir le champs username à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="username">UserName</label>
+                            <input
+                              id="username"
+                              type="text"
+                              class="form-control"
+                              name="username"
+                              required
+                                 [(ngModel)]="utilisateurid.username" name="username"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir le champs name à remplir -->
+                        <!--<div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="name">Name</label>
+                            <input
+                              id="name"
+                              type="text"
+                              class="form-control"
+                              name="name"
+                              placeholder="Nicolas"
+                              required
+                                 [(ngModel)]="utilisateurid.name" name="name"
+                            />
+                          </div>
+                        </div>-->
+
+                        <!-- Définir le champs surname à remplir -->
+                        <!-- <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="surname">Surname</label>
+                            <input
+                              id="surname"
+                              type="text"
+                              class="form-control"
+                              name="surname"
+                              placeholder="Rouard"
+                              required
+                                 [(ngModel)]="utilisateurid.surname" name="surname"
+                            />
+                          </div>
+                        </div>-->
+
+                        <!-- Définir le champs email à remplir-->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="email">Email</label>
+                            <input
+                              id="email"
+                              type="email"
+                              class="form-control"
+                              name="email"
+                              placeholder="nicolas.rouard@arcelormittal.com"
+                              required
+                                 [(ngModel)]="utilisateurid.email" name="email"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Créer le bouton Sauvegarder et le bouton reset -->
+                        <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                          <button type="submit" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1" rippleEffect [disabled]="!UtilisateurForm.form.valid">
+                            Save Changes
+                          </button>
+                          <button type="reset" class="btn btn-outline-secondary" rippleEffect>Reset</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </ng-template>
+              </li>
+            </ul>
+            <div [ngbNavOutlet]="nav" class="mt-2"></div>
+          </div>
+        </div>
+    </section>
+  </div>
+</div>
+

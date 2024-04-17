@@ -1,0 +1,597 @@
+<!-- Définir le formulaire-->
+<div class="content-wrapper">
+  <div class="content-body">
+
+    <!-- Définir l'en-tête -->
+    <section class="app-user-edit">
+        <div class="card">
+          <div class="card-body">
+            <ul ngbNav #nav="ngbNav" class="nav nav-pills">
+              <li ngbNavItem>
+                <a ngbNavLink class="d-flex align-items-center">
+                  <i data-feather="info" class="mr-sm-50"></i><span class="d-none d-sm-block">Information</span></a
+                >
+                <ng-template ngbNavContent>
+
+                  <!-- Définir le bouton information -->
+                  <div class="tab-pane" id="information" aria-labelledby="information-tab" role="tabpanel">
+
+                    <!-- Définir le formulaire et la methode ngsubmit  -->
+                    <form (ngSubmit)="onSubmit()" #CandidatForm="ngForm" class="form-validate">
+                      <option *ngFor="let element of candidat" [value]="element">{{element}}</option>
+                      <div class="row mt-1">
+                        <div class="col-12">
+                          <h4 class="mb-1">
+                            <i data-feather="plus" [size]="16" class="mr-75 font-medium-4"></i>
+                            <span class="align-middle">Modifier un candidat</span>
+                          </h4>
+                        </div>
+
+                        <!-- Définir l'onglet Coordonnées -->
+                        <!-- Définir le champ nom à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="nom">Nom</label>
+                            <input
+                              id="nom"
+                              type="text"
+                              class="form-control"
+                              name="nom"
+                              placeholder="Califano"
+                              required
+                                 [(ngModel)]="candidatid.nom" name="nom"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Coordonnées -->
+                        <!-- Définir le champs prénom à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="prenom">Prénom</label>
+                            <input
+                              id="prenom"
+                              type="text"
+                              class="form-control"
+                              name="prenom"
+                              placeholder="Ines"
+                              required
+                                 [(ngModel)]="candidatid.prenom" name="prenom"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Coordonnées -->
+                        <!-- Définir le champs Téléphone à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="telephone">Téléphone</label>
+                            <input
+                              id="telephone"
+                              type="text"
+                              class="form-control"
+                              name="telephone"
+                              placeholder="0781813025"
+                              required
+                                 [(ngModel)]="candidatid.telephone" name="telephone"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Coordonnées -->
+                        <!-- Définir le champs Email à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="email">Email</label>
+                            <input
+                              id="email"
+                              type="text"
+                              class="form-control"
+                              name="email"
+                              placeholder="ines.califano@hhh.fr"
+                              required
+                                 [(ngModel)]="candidatid.email" name="email"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Coordonnées -->
+                        <!-- Définir le champs Linkedin à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="linkedin">Linkedin</label>
+                            <input
+                              id="linkedin"
+                              type="text"
+                              class="form-control"
+                              name="linkedin"
+                              placeholder="Nom Prenom"
+                              required
+                                 [(ngModel)]="candidatid.linkedin" name="linkedin"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Coordonnées -->
+                        <!-- Définir le champs Skype à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="skype">Skype</label>
+                            <input
+                              id="skype"
+                              type="text"
+                              class="form-control"
+                              name="skype"
+                              placeholder="Nom Prenom"
+                              required
+                                 [(ngModel)]="candidatid.skype" name="skype"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Coordonnées -->
+                        <!-- Définir le champs Adresse à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="adresse">Adresse</label>
+                            <input
+                              id="adresse"
+                              type="text"
+                              class="form-control"
+                              name="adresse"
+                              placeholder="6 Voie d'Angleterre"
+                              required
+                                 [(ngModel)]="candidatid.adresse" name="adresse"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Coordonnées -->
+                        <!-- Définir le champ ville à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="r_VilleId">Ville</label>
+                            <select id="r_VilleId" class="form-control"
+                            required
+                                 [(ngModel)]="candidatid.r_VilleId" name="r_VilleId">
+                                   <option *ngFor="let r_VilleId of r_VilleIdArray" [value]="r_VilleId.id">
+                                     {{r_VilleId.nom}}
+                                   </option>
+                            </select> 
+                          </div>
+                        </div> 
+
+                        <!-- Définir l'onglet Finance -->
+                        <!-- Définir le champs Salaire Actuel à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="salaire_Actuel">Salaire Actuel</label>
+                            <input
+                              id="salaire_Actuel"
+                              type="number"
+                              class="form-control"
+                              name="salaire_Actuel"
+                              placeholder="2000"
+                              required
+                                 [(ngModel)]="candidatid.salaire_Actuel" name="salaire_Actuel"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Finance -->
+                        <!-- Définir le champs Salaire souhaité à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="salaire_Souhaite">Salaire souhaité</label>
+                            <input
+                              id="salaire_Souhaite"
+                              type="number"
+                              class="form-control"
+                              name="salaire_Souhaite"
+                              placeholder="2100"
+                              required
+                                 [(ngModel)]="candidatid.salaire_Souhaite" name="salaire_Souhaite"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Finance -->
+                        <!-- Définir le champs CJM à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="cjm">CJM</label>
+                            <input
+                              id="cjm"
+                              type="number"
+                              class="form-control"
+                              name="cjm"
+                              placeholder="200"
+                              required
+                                 [(ngModel)]="candidatid.cjm" name="cjm"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Finance -->
+                        <!-- Définir le champs TJM30 à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="tjM30">TJM30</label>
+                            <input
+                              id="tjM30"
+                              type="number"
+                              class="form-control"
+                              name="tjM30"
+                              placeholder="250"
+                              required
+                                 [(ngModel)]="candidatid.tjM30" name="tjM30"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Contrat -->
+                        <!-- Définir le champ contrat à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="r_ContratId">Contrat</label>
+                            <select id="r_ContratId" class="form-control"
+                            required
+                                 [(ngModel)]="candidatid.r_ContratId" name="r_ContratId">
+                                   <option *ngFor="let r_ContratId of r_ContratIdArray" [value]="r_ContratId.id">
+                                     {{r_ContratId.nom}}
+                                   </option>
+                            </select> 
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Contrat -->
+                        <!-- Définir le champ poste à remplir -->
+                        <!-- <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="r_PosteId">Poste</label>
+                            <select id="r_PosteId" class="form-control"
+                            required
+                                 [(ngModel)]="candidatid.r_PosteId" name="r_PosteId">
+                                   <option *ngFor="let r_PosteId of r_PosteIdArray" [value]="r_PosteId.id">
+                                     {{r_PosteId.nom}}
+                                   </option>
+                            </select> 
+                          </div>
+                        </div> -->
+
+                        <!-- Définir l'onglet Contrat -->
+                        <!-- Définir le champs Disponibilté à remplir -->
+                        <!-- <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="date_Disponibilite">Disponibilité</label>
+                            <input
+                              id="date_Disponibilite"
+                              type="Date"
+                              class="form-control"
+                              name="date_Disponibilite"
+                              placeholder="00-00-0000"
+                              required
+                                 [(ngModel)]="candidatid.date_Disponibilite" name="date_Disponibilite"
+                            />
+                          </div>
+                        </div> -->
+
+                        <!-- Définir l'onglet Transport -->
+                        <!-- Définir le champs Permis à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="permis">Permis</label>
+                            <input
+                              id="permis"
+                              type="boolean"
+                              class="form-control"
+                              name="permis"
+                              placeholder="1"
+                              required
+                                 [(ngModel)]="candidatid.permis" name="permis"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Transport -->
+                        <!-- Définir le champs Handicap à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="handicap">Handicap</label>
+                            <input
+                              id="handicap"
+                              type="boolean"
+                              class="form-control"
+                              name="handicap"
+                              placeholder="1"
+                              required
+                                 [(ngModel)]="candidatid.handicap" name="handicap"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Transport -->
+                        <!-- Définir le champs Vehicule à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="vehicule">Vehicule</label>
+                            <input
+                              id="vehicule"
+                              type="text"
+                              class="form-control"
+                              name="vehicule"
+                              placeholder="1"
+                              required
+                                 [(ngModel)]="candidatid.vehicule" name="vehicule"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Etat Civil -->
+                        <!-- Définir le champs Date de naissance à remplir -->
+                        <!-- <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="date_Naissance">Date de naissance</label>
+                            <input
+                              id="date_Naissance"
+                              type="date"
+                              class="form-control"
+                              name="date_Naissance"
+                              placeholder="1"
+                              required
+                                 [(ngModel)]="candidatid.date_Naissance" name="date_Naissance"
+                            />
+                          </div>
+                        </div> -->
+
+                        <!-- Définir l'onglet Etat Civil -->
+                        <!-- Définir le champs Sexe à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="sexe">Sexe</label>
+                            <input
+                              id="sexe"
+                              type="number"
+                              class="form-control"
+                              name="sexe"
+                              placeholder="1"
+                              required
+                                 [(ngModel)]="candidatid.sexe" name="sexe"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Etat Civil -->
+                        <!-- Définir le champs Nombre d'enfants à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="enfant_Nombre">Nombre d'enfants</label>
+                            <input
+                              id="enfant_Nombre"
+                              type="number"
+                              class="form-control"
+                              name="enfant_Nombre"
+                              placeholder="1"
+                              required
+                                 [(ngModel)]="candidatid.enfant_Nombre" name="enfant_Nombre"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Etat Civil -->
+                        <!-- Définir le champ nationalité à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="r_NationaliteId">Nationalité</label>
+                            <select id="r_NationaliteId" class="form-control"
+                            required
+                                 [(ngModel)]="candidatid.r_NationaliteId" name="r_NationaliteId">
+                                   <option *ngFor="let r_NationaliteId of r_NationaliteIdArray" [value]="r_NationaliteId.id">
+                                     {{r_NationaliteId.nom}}
+                                   </option>
+                            </select> 
+                          </div>
+                        </div>                        
+                        
+                        <!-- Définir l'onglet Etat Civil -->
+                        <!-- Définir le champ situation familiale à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="r_Situation_FamilleId">Situation familiale</label>
+                            <select id="r_Situation_FamilleId" class="form-control"
+                            required
+                                 [(ngModel)]="candidatid.r_Situation_FamilleId" name="r_Situation_FamilleId">
+                                   <option *ngFor="let r_Situation_FamilleId of r_Situation_FamilleIdArray" [value]="r_Situation_FamilleId.id">
+                                     {{r_Situation_FamilleId.nom}}
+                                   </option>
+                            </select> 
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Qualification -->
+                        <!-- Définir le champ origine de la candidature à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="r_Candidature_OrigineId">Origine</label>
+                            <select id="r_Candidature_OrigineId" class="form-control"
+                            required
+                                 [(ngModel)]="candidatid.r_Candidature_OrigineId" name="r_Candidature_OrigineId">
+                                   <option *ngFor="let r_Candidature_OrigineId of r_Candidature_OrigineIdArray" [value]="r_Candidature_OrigineId.id">
+                                     {{r_Candidature_OrigineId.nom}}
+                                   </option>
+                            </select> 
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Qualification -->
+                        <!-- Définir le champ status à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="r_Candidature_EtatId">Statut</label>
+                            <select id="r_Candidature_EtatId" class="form-control"
+                            required
+                                 [(ngModel)]="candidatid.r_Candidature_EtatId" name="r_Candidature_EtatId">
+                                   <option *ngFor="let r_Candidature_EtatId of r_Candidature_EtatIdArray" [value]="r_Candidature_EtatId.id">
+                                     {{r_Candidature_EtatId.nom}}
+                                   </option>
+                            </select> 
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Qualification -->
+                        <!-- Définir le champs Date du dernier diplome à remplir -->
+                        <!-- <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="date_Diplome">Date du dernier diplôme</label>
+                            <input
+                              id="date_Diplome"
+                              type="text"
+                              class="form-control"
+                              name="date_Diplome"
+                              placeholder="1"
+                              required
+                                 [(ngModel)]="candidatid.date_Diplome" name="date_Diplome"
+                            />
+                          </div>
+                        </div> -->
+
+                        <!-- Définir l'onglet Qualification -->
+                        <!-- Définir le champs Première impréssion à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="qualif_Premiere_Impression">Première impréssion</label>
+                            <input
+                              id="qualif_Premiere_Impression"
+                              type="number"
+                              class="form-control"
+                              name="qualif_Premiere_Impression"
+                              placeholder="1"
+                              required
+                                 [(ngModel)]="candidatid.qualif_Premiere_Impression" name="qualif_Premiere_Impression"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Qualification -->
+                        <!-- Définir le champs Ponctualité à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="qualif_Ponctualite">Ponctualité</label>
+                            <input
+                              id="qualif_Ponctualite"
+                              type="number"
+                              class="form-control"
+                              name="qualif_Ponctualite"
+                              placeholder="1"
+                              required
+                                 [(ngModel)]="candidatid.qualif_Ponctualite" name="qualif_Ponctualite"
+                            />
+                          </div>
+                        </div>
+                        
+                        <!-- Définir l'onglet Qualification -->
+                        <!-- Définir le champs Tenue à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="qualif_Tenue">Tenue</label>
+                            <input
+                              id="qualif_Tenue"
+                              type="number"
+                              class="form-control"
+                              name="qualif_Tenue"
+                              placeholder="1"
+                              required
+                                 [(ngModel)]="candidatid.qualif_Tenue" name="qualif_Tenue"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Qualification -->
+                        <!-- Définir le champs Expréssion orale à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="qualif_Expression_Orale">Expréssion orale</label>
+                            <input
+                              id="qualif_Expression_Orale"
+                              type="number"
+                              class="form-control"
+                              name="qualif_Expression_Orale"
+                              placeholder="1"
+                              required
+                                 [(ngModel)]="candidatid.qualif_Expression_Orale" name="qualif_Expression_Orale"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Qualification -->
+                        <!-- Définir le champs Expréssion écrite à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="qualif_Expression_Ecrite">Expréssion écrite</label>
+                            <input
+                              id="qualif_Expression_Ecrite"
+                              type="number"
+                              class="form-control"
+                              name="qualif_Expression_Ecrite"
+                              placeholder="1"
+                              required
+                                 [(ngModel)]="candidatid.qualif_Expression_Ecrite" name="qualif_Expression_Ecrite"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Qualification -->
+                        <!-- Définir le champs Motivation à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="qualif_Motivation">Motivation</label>
+                            <input
+                              id="qualif_Motivation"
+                              type="number"
+                              class="form-control"
+                              name="qualif_Motivation"
+                              placeholder="1"
+                              required
+                                 [(ngModel)]="candidatid.qualif_Motivation" name="qualif_Motivation"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir l'onglet Qualification -->
+                        <!-- Définir le champs Présentation à remplir -->
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label for="qualif_Presentation">Présentation</label>
+                            <input
+                              id="qualif_Presentation"
+                              type="number"
+                              class="form-control"
+                              name="qualif_Presentation"
+                              placeholder="1"
+                              required
+                                 [(ngModel)]="candidatid.qualif_Presentation" name="qualif_Presentation"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Définir le bouton save changes  -->
+                        <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                          <button type="submit" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1" rippleEffect [disabled]="!CandidatForm.form.valid"> 
+                            Sauvegarder
+                          </button>
+
+                          <!-- Définir le bouton reset -->
+                          <button type="reset" class="btn btn-outline-secondary" rippleEffect>Annuler</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </ng-template>
+              </li>
+            </ul>
+            <div [ngbNavOutlet]="nav" class="mt-2"></div>
+          </div>
+        </div>
+    </section>
+  </div>
+</div>
