@@ -1,1 +1,0 @@
-# "SENTYNEL-FRONT" git
